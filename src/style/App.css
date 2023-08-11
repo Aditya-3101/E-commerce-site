@@ -7,9 +7,12 @@ a{
   text-decoration: none;
 }
 
+#root{
+overflow-y:hidden;
+}
+
 html,body{
   overflow-x: hidden;
-  overflow-y:hidden;
 }
 
 .nav-list{
