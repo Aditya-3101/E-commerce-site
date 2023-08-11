@@ -9,6 +9,7 @@ a{
 
 html,body{
   overflow-x: hidden;
+  overflow-y:hidden;
 }
 
 .nav-list{
