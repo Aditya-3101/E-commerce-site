@@ -50,7 +50,13 @@ export function Home() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search for Products, Brands and More"
           />{" "}
-          <BiSearch className="find-icon" />
+          <BiSearch className="find-icon"  onClick={(e)=>{
+            if(String(search).length!==0){
+            e.preventDefault();
+            setQuery({ search });
+            navigate(`/lists/search?q=${search}`);
+          }
+          }}/>
         </form>
 
         <Link to="/account">

@@ -26,6 +26,7 @@ export const DetailPage = () => {
   const dispatch = useDispatch();
   const [msg, setMsg] = useState(false);
   const check = useSelector((state) => state.Item);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo({
@@ -151,11 +152,14 @@ export const DetailPage = () => {
             <button
               className="buy-btn"
               onClick={() => {
-                try {
-                  dispatch(delItem(info.ProductId));
-                } catch (e) {
-                  console.log(e);
-                }
+                  try {
+                    dispatch(addItem(info));
+                    navigate("/cart");
+                  } catch (e) {
+                    console.log(e);
+                  } finally {
+                    setMsg(!msg);
+                  }
               }}
             >
               Buy now

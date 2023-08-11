@@ -101,6 +101,7 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
 .search-input > input {
   width: 90%;
   height: 100%;
+  font-size: 1rem;
 }
 
 .search-input > input::-webkit-input-placeholder{
@@ -889,10 +890,13 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
 
 .shipping-details{
   width: 90%;
+  height: 4rem;
   margin:0 auto 0 auto;
+  align-self: center;
   padding:0.3rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid gray;
 }
 
@@ -905,6 +909,7 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
 
 .shipping-details > p{
   font-weight: 600;
+  vertical-align: middle;
 }
 
 .back-arrow{
@@ -956,6 +961,11 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
 
 
 @media screen and (max-width:480px) {
+
+#root{
+  overflow-y:hidden;
+}
+
   h2{
     font-family:monospace;
     font-weight: 500;
@@ -1040,6 +1050,11 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
   height: 100%;
   text-align: center;
   background-color: rgb(255,255,255);
+  border-color: transparent;
+    border-end-end-radius: 4px;
+    border-start-end-radius: 4px;
+    height: 2.05rem;
+    padding: 0 0.1rem 0 0.1rem;
 }
 
 .search-container{
@@ -1065,6 +1080,7 @@ padding:0.4rem 0.1rem 0.4rem 0.1rem;
 .search-input >input{
   width: 90%;
   height: 100%;
+  font-size: 1rem;
 }
 
 .search-container >input:focus{
@@ -1616,8 +1632,9 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
 
 .cart-btns{
-  width: 100%;
+  width: 90%;
   display: flex;
+  margin-inline:auto;
 }
 
 .cart-btns button{
@@ -1683,7 +1700,7 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .checkout-payment-type{
-  margin:0 auto 0 auto;
+  margin:1rem auto 1rem auto;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -1692,11 +1709,13 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 .checkout-payment-type p {
   margin:0.2rem 0 0.2rem 0;
   font-weight: 600;
+  font-family: sans-serif;
 }
 
 .checkout-payment-type label{
   width: 60%;
   padding:0.3rem;
+  line-height: 100%;
   font-family: sans-serif;
 }
 
@@ -1704,9 +1723,13 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding:0.3rem;
 }
 
+.order-section{
+  height: auto;
+}
+
 .order-section > p{
   width: 90%;
-  margin:0 auto 0 auto;
+  margin:0.3rem auto 0.3rem auto;
   font-family: sans-serif;
   font-weight: 600;
 }
@@ -1734,6 +1757,12 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
 .order-item >div>button{
   width: 5rem;
+  font-family: sans-serif;
+  text-align: center;
+  vertical-align: middle;
+  background-color: transparent;
+  border-width: 1px;
+  padding:0.1rem;
 }
 
 .order-btns-section{
@@ -1755,13 +1784,17 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
 .shipping-details{
   width: 90%;
-  margin:0 auto 0 auto;
+  height: 7rem;
+  margin:1rem auto 1rem auto;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 
  .shipping-details > label{
   margin:0.3rem 0 0 0;
+  font-family: sans-serif;
 } 
 .shipping-details > label >input{
   margin-left: 1rem;
@@ -1769,6 +1802,7 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
 .shipping-details > p{
   font-weight: 600;
+  font-family: sans-serif;
 }
 
 .laptop-card{

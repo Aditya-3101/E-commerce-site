@@ -1,6 +1,7 @@
 import "./style/App.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { HomeLayout } from "./Layouts/HomeLayout";
+import { AuthLayout } from "./Layouts/AuthLayout";
 import {
   Route,
   createBrowserRouter,
@@ -32,7 +33,9 @@ const router = createBrowserRouter(
       />
       <Route path="/cart" element={<Cart />} />
       <Route path="/account" element={<Account />} />
+      <Route element={<AuthLayout/>}>
       <Route path="/checkout" element={<Checkout />} />
+      </Route>
       <Route path="*" element={<NoPage />} />
     </Route>
   )
