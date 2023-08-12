@@ -33,6 +33,10 @@ export const DetailPage = () => {
       left: 0,
       top: 0,
     });
+    if(data.length===0){
+      navigate("*")
+    }
+    console.log(data.length)
     checkcart();
   }, []);
 
