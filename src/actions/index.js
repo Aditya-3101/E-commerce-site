@@ -54,3 +54,31 @@ export const finditem = (para) => {
     payload: para || null,
   };
 };
+
+export const userLogin = (para) => {
+  return {
+    type: "login",
+    payload: para || null,
+  };
+};
+
+export const userLogout = (para) => {
+  return {
+    type: "logout",
+    payload: para || null,
+  };
+};
+
+export const requestLoading = (para) => {
+  return {
+    type: "loading",
+    payload: para || null,
+  };
+};
+
+export const requestDelayed = (para) => {
+  return {
+    type: "delayed",
+    payload: para || null,
+  };
+};

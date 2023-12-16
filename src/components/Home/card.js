@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaStar, FaStarHalf } from "react-icons/fa";
+import {
+  MdOutlineArrowBackIosNew,
+  MdOutlineArrowForwardIos,
+} from "react-icons/md";
 
 export function Card(props) {
   const [data, setData] = useState(props.data ? props.data : "");
-  const [set, unset] = useState(0);
+  const reference = useRef();
+  const [width, setWidth] = useState(window.screen.availWidth);
+  const [displaynavigation, setDisplayNavigation] = useState({
+    back: true,
+    forward: true,
+  });
 
   const categories = [
     {
@@ -17,21 +25,110 @@ export function Card(props) {
     },
   ];
 
+  const banners = [
+    {
+      name: "apple",
+      photo:
+        "https://i.ibb.co/HChjD7s/711-JE-d-D1-KL-SX679-removebg-preview.png",
+      desc: "Buy Iphones at nearly 15% Discount ",
+    },
+  ];
+
+  const cardData = [
+    {
+      id: 10004,
+      name: "Lenovo Ideapad",
+      processor: "intel celeron dual core",
+      specs: "4GB | 256GB",
+      image: "https://i.ibb.co/L5Q0M2x/61s7s-JEps-VL-SL1000.jpg",
+      type: "laptop",
+      category: "Laptops",
+      price: 22900,
+    },
+    {
+      id: 10001,
+      name: "Hp Pavilion 1440",
+      processor: "intel Core i5 10th Gen",
+      specs: "8GB | 1TB",
+      image:
+        "https://i.ibb.co/94KHFwV/na-thin-and-light-laptop-hp-original-imag69rnjkctnzhy.jpg",
+      type: "laptop",
+      category: "Laptops",
+      price: 49600,
+    },
+    {
+      id: 1003,
+      name: "Oneplus Nord CE",
+      processor: "Snapdragon 750G",
+      specs: "6GB | 128GB",
+      image:
+        "https://i.ibb.co/4N7P0pJ/original-imagdm4pzduvcfx4-min-removebg-preview.png",
+      type: "mobile",
+      category: "Mobiles",
+      price: 22999,
+    },
+    {
+      id: 1011,
+      name: "Apple iPhone 14",
+      processor: "A15 bionic chip",
+      specs: "128GB",
+      image: "https://i.ibb.co/x5CmDyX/261991-hhfa33-removebg-preview.png",
+      type: "mobile",
+      category: "Mobiles",
+      price: 74499,
+    },
+  ];
+
+  useEffect(() => {
+    const heroWidth = window.screen.availWidth * data.length;
+    reference.current.scrollTo(width, 0);
+    if (reference.current.scrollLeft === 0) {
+      setDisplayNavigation((prev) => ({
+        ...prev,
+        back: false,
+      }));
+    } else {
+      setDisplayNavigation((prev) => ({
+        ...prev,
+        back: true,
+      }));
+    }
+
+    if (reference.current.scrollLeft === heroWidth - window.screen.availWidth) {
+      setDisplayNavigation((prev) => ({
+        ...prev,
+        forward: false,
+      }));
+    } else {
+      setDisplayNavigation((prev) => ({
+        ...prev,
+        forward: true,
+      }));
+    }
+  }, [width]);
+
   const poster = data.map((para, index) => {
     return (
       <Link
         key={index}
-        className={`card-poster`}
+        className={`card-poster ${
+          String(para.Sname).search("Apple") > -1 ? "firstPhone" : ""
+        }`}
         to={`/lists/Mobiles/${para.ProductId}`}
       >
         <div
-          className="hero-img-container">
-          <img
-            src={para.Simg}
-            alt={para.Sname}
-            className="hero-single-img"
-           
-          />
+          className="hero-img-container"
+          style={{
+            width: "100% !important",
+            height: "auto !important",
+            borderRadius: "5px",
+            padding: "1rem",
+            position: "relative",
+            display: "grid",
+            gridTemplateColumns: "40% 60%",
+          }}
+        >
+          <img src={para.Simg} alt={para.Sname} className="hero-single-img" />
           <div
             style={{
               height: "80%",
@@ -40,10 +137,13 @@ export function Card(props) {
               justifyContent: "space-evenly",
             }}
           >
-            <p className="hero-item-name" style={{ fontFamily: "sans-serif", fontSize: "2.4rem" }}>
+            <p
+              className="hero-item-name"
+              style={{ fontFamily: "sans-serif", fontSize: "2.4rem" }}
+            >
               {para.Sname}
             </p>
-            <p className="hero-item-star" style={{ fontSize: "2rem" }}>
+            {/* <p className="hero-item-star" style={{ fontSize: "2rem" }}>
               <FaStar
                 className={`${para.S_rating >= 0 ? "filled" : "no-filled"}`}
               />
@@ -76,14 +176,20 @@ export function Card(props) {
                 <FaStar className="not-filled" />
               )}
               ({para.S_rating})
-            </p>
-            <p className="hero-item-specs" style={{ fontFamily: "sans-serif", fontSize: "1.8rem" }}>
-              {para.Sram}GB | {para.Sstorage}GB{" "}
+            </p> */}
+            <p
+              className="hero-item-specs"
+              style={{ fontFamily: "sans-serif", fontSize: "1.6rem" }}
+            >
+              {para.min_info}
             </p>
             <p></p>
-            <p className="hero-item-price" style={{ fontFamily: "sans-serif", fontSize: "1.7rem" }}>
-              &#8377;{Number(para.Sprice).toLocaleString("en-IN")}
-            </p>{" "}
+            <Link
+              className="hero-item-price"
+              to={`/lists/Mobiles/${para.ProductId}`}
+            >
+              Buy Now
+            </Link>{" "}
           </div>
         </div>
       </Link>
@@ -106,61 +212,128 @@ export function Card(props) {
   return (
     <article>
       <div
-        className="poster-container hideScroll"
         style={{
-          position: "sticky",
-          width: "100%",
-          display: "grid",
-          gridAutoFlow: "column",
-          gridAutoColumns: "100%",
-          scrollbarWidth: "none",
-          overflowX: "scroll",
-          flexWrap: "nowrap",
+          position: "relative",
         }}
       >
-        {poster}
+        <div
+          className="poster-container hideScroll"
+          style={{
+            position: "sticky",
+            width: "100%",
+            display: "grid",
+            gridAutoFlow: "column",
+            gridAutoColumns: "100%",
+            gridAutoRows: "1fr",
+            scrollbarWidth: "none",
+            overflowX: "scroll",
+            flexWrap: "nowrap",
+            gridTemplateAreas: "poster",
+            scrollSnapType: "x mandatory",
+          }}
+          ref={reference}
+        >
+          {poster}
+        </div>
+        <p
+          className={
+            displaynavigation.back === true ? "backNavigate" : "hideBack"
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            setWidth((prev) => prev - window.screen.availWidth);
+          }}
+        >
+          <MdOutlineArrowBackIosNew />
+        </p>
+        <p
+          className={
+            displaynavigation.forward === true ? "forwardNavigate" : "hideBack"
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            setWidth((prev) => prev + window.screen.availWidth);
+          }}
+        >
+          <MdOutlineArrowForwardIos />
+        </p>
       </div>
       <div>
-        <p className="types">Categories</p><div className="type-container">{types}</div>
+        <p className="types">Categories</p>
+        <div className="type-banners">
+          <div className="type-container">{types}</div>
+          <section className="banner-container">
+            {banners.map((par, index) => {
+              return (
+                <Link
+                  key={index}
+                  className="banner"
+                  to="/lists/Mobiles?filterBy=brand(Apple)"
+                >
+                  <div>
+                    <p>{par.desc}</p>
+                  </div>
+                  <img src={par.photo} alt={par.name} />
+                </Link>
+              );
+            })}
+          </section>
+        </div>
       </div>
       <div>
-        <Link to="/lists/Laptops/10004" className="laptop-card">
-          <img src="https://m.media-amazon.com/images/I/61s7sJEpsVL._SL1000_.jpg" />
-          <div>
-            <p className="item-laptop-name">Lenovo Ideapad</p>
-            <p className="item-laptop-process">intel celeron dual core</p>
-            <p className="item-laptop-specs">4GB | 256GB</p>
-            <p className="item-laptop-price">&#8377; 22,900/- only</p>
-          </div>
-        </Link>
-        <Link to="/lists/Laptops/10001" className="laptop-card-rev">
-          <img src="https://i.ibb.co/94KHFwV/na-thin-and-light-laptop-hp-original-imag69rnjkctnzhy.jpg" />
-          <div>
-            <p className="item-laptop-name">Hp Pavilion 1440</p>
-            <p className="item-laptop-process">Intel Core i5 10th Gen</p>
-            <p className="item-laptop-specs">8GB | 1TB</p>
-            <p className="item-laptop-price">&#8377; 49,600/- only</p>
-          </div>
-        </Link>
-        <Link to="/lists/Mobiles/1003" className="sm-card">
-          <img src="https://i.ibb.co/4N7P0pJ/original-imagdm4pzduvcfx4-min-removebg-preview.png" className="sm-card-img" />
-          <div>
-            <p className="item-laptop-name sm-item">Oneplus Nord CE</p>
-            <p className="item-laptop-process sm-item">Snapdragon 750G</p>
-            <p className="item-laptop-specs sm-item">6GB | 128GB</p>
-            <p className="item-laptop-price sm-item">&#8377; 22,999/- only</p>
-          </div>
-        </Link>
-        <Link to="/lists/Mobiles/1011" className="sm-card sm-card-rev">
-          <img src="https://i.ibb.co/HChjD7s/711-JE-d-D1-KL-SX679-removebg-preview.png" className="sm-card-img sm-rev" />
-          <div>
-            <p className="item-laptop-name sm-item">Apple iPhone 14</p>
-            <p className="item-laptop-process sm-item">A15 bionic chip</p>
-            <p className="item-laptop-specs sm-item">128GB</p>
-            <p className="item-laptop-price sm-item">&#8377; 74,499/- only</p>
-          </div>
-        </Link>
-
+        {cardData.map((para, index) => {
+          return (
+            <Link
+              to={`/lists/${para.category}/${para.id}`}
+              key={index}
+              className={
+                para.type === "laptop"
+                  ? index % 2 === 0
+                    ? "laptop-card"
+                    : "laptop-card-rev"
+                  : index % 2 === 0
+                  ? "sm-card"
+                  : "sm-card sm-card-rev"
+              }
+            >
+              <img
+                src={para.image}
+                alt="lenovo"
+                className={
+                  para.type === "mobile"
+                    ? index % 2 === 0
+                      ? "sm-card-img"
+                      : "sm-card-img sm-rev"
+                    : null
+                }
+              />
+              <div>
+                <p
+                  className={
+                    para.type === "laptop"
+                      ? "item-laptop-name"
+                      : "item-laptop-name sm-item"
+                  }
+                >
+                  {para.name}
+                </p>
+                <p
+                  className={
+                    para.type === "laptop"
+                      ? "item-laptop-process"
+                      : "item-laptop-process sm-item"
+                  }
+                >
+                  {para.processor}
+                </p>
+                <p className="item-laptop-specs">{para.specs}</p>
+                <p className="item-laptop-price">
+                  &#8377;{Number(para.price).toLocaleString("en-IN")} only
+                </p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </article>
   );

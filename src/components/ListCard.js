@@ -8,7 +8,7 @@ export const ListCard = (props) => {
   const { Simg, Sname, Sprice, Scolor, S_rating, Sram, Sstorage } = props.info;
   const { type } = useParams();
 
-  let rating = Number(S_rating*1).toFixed(1);
+  let rating = Number(S_rating * 1).toFixed(1);
 
   return (
     <div>
@@ -18,9 +18,6 @@ export const ListCard = (props) => {
           <p className="item-name">
             {Sname}
             <span>({Scolor})</span>
-          </p>
-          <p className="item-price">
-            &#8377;{Number(Sprice).toLocaleString("en-IN")}
           </p>
           <p>
             <FaStar className={`${S_rating >= 0 ? "filled" : "no-filled"}`} />
@@ -41,7 +38,7 @@ export const ListCard = (props) => {
             {rating > 3 && rating <= 3.5 ? (
               <FaStarHalf className="filled" />
             ) : S_rating > 3.5 ? (
-              <FaStar className="filled" /> 
+              <FaStar className="filled" />
             ) : (
               <FaStar className="not-filled" />
             )}
@@ -52,10 +49,13 @@ export const ListCard = (props) => {
             ) : (
               <FaStar className="not-filled" />
             )}
-            ({(rating)})
+            ({rating})
           </p>
           <p>
             {Sram} | {Sstorage}GB
+          </p>
+          <p className="item-price">
+            &#8377;{Number(Sprice).toLocaleString("en-IN")}
           </p>
         </div>
       </div>

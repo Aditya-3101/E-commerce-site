@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import { useSearchParams, useParams } from "react-router-dom";
 import { ListCard } from "./ListCard";
@@ -13,17 +13,9 @@ import {
 } from "../actions";
 
 export const Lists = () => {
+  const [platform, setPlatform] = useState(null);
   const [update] = useOutletContext();
   const dispatch = useDispatch();
-  const [initial, setIntial] = useState("price");
-  const display = useSelector((state) => state.showFilter);
-  const showSort = useSelector((state) => state.showSort);
-  const [parameters, setParameters] = useSearchParams();
-  let typeFilter = parameters.get("filterBy");
-  let sortfilter = parameters.get("sortBy");
-  const regex = /\(([^)]+)\)/;
-  const cut = regex.exec(typeFilter) || [];
-  const range = String(cut[1])?.split("-");
   const flag = useSelector((state) => state.flag);
 
   useEffect(() => {
@@ -36,6 +28,14 @@ export const Lists = () => {
     } else {
       dispatch(displayFilter());
       dispatch(displaySort());
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (window.innerWidth <= 480) {
+      setPlatform("Mobile");
+    } else {
+      setPlatform("Desktop");
     }
   }, []);
 

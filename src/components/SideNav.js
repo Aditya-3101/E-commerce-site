@@ -34,12 +34,12 @@ export default function SideNav() {
         </li>
         <li>
           <AiOutlineShopping />
-          <p>My Carts</p>
+          <Link to="/cart">My Carts</Link>
         </li>
 
         <li>
           <PiShoppingCartSimple />
-          <p>My Orders</p>
+          <Link to="/orders">My Orders</Link>
         </li>
         <li>
           <BsQuestionLg />

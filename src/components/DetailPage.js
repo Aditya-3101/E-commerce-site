@@ -8,7 +8,7 @@ import { GiProcessor } from "react-icons/gi";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, delItem } from "../actions";
+import { addItem, delItem, userLogout } from "../actions";
 
 export function loader({ params }) {
   if (params.type === "Mobiles") {
@@ -20,12 +20,13 @@ export function loader({ params }) {
 
 export const DetailPage = () => {
   const data = useLoaderData();
-  const info = Object.assign({}, data[0]);
-  const photos = String(info.SmPhotos).split("|||");
+  // const info = Object.assign({}, data[0]);
+  const photos = String(data.SmPhotos).split("|||");
   const { type } = useParams();
   const dispatch = useDispatch();
   const [msg, setMsg] = useState(false);
   const check = useSelector((state) => state.Item);
+  const user = useSelector((state) => state.loginUser);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,17 +34,16 @@ export const DetailPage = () => {
       left: 0,
       top: 0,
     });
-    if(data.length===0){
-      navigate("*")
+    if (data.length === 0) {
+      navigate("*");
     }
-    console.log(data.length)
     checkcart();
   }, []);
 
   function checkcart() {
     if (check.length !== 0) {
       check.filter((par) => {
-        if (par.ProductId === info.ProductId) {
+        if (par.ProductId === data.ProductId) {
           setMsg(true);
           return true;
         } else {
@@ -55,12 +55,18 @@ export const DetailPage = () => {
   }
 
   function addtoCart() {
-    try {
-      dispatch(addItem(info));
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setMsg(!msg);
+    console.log("add to cartt");
+    if (user.length !== 0) {
+      try {
+        dispatch(addItem(data));
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setMsg(!msg);
+      }
+    } else {
+      dispatch(addItem(data));
+      navigate("/cart");
     }
   }
 
@@ -86,61 +92,61 @@ export const DetailPage = () => {
         <div className="detail-info">
           <article className="highlight-info">
             <p className="detail-name">
-              {info.Sname}
+              {data.Sname}
               <span>
-                ({info.Scolor},{info.Sram}GB,{info.Sstorage}GB)
+                ({data.Scolor},{data.Sram}GB,{data.Sstorage}GB)
               </span>
             </p>
             <p className="high-ratings">
               <FaStar
-                className={`${info.S_rating >= 0 ? "filled" : "no-filled"}`}
+                className={`${data.S_rating >= 0 ? "filled" : "no-filled"}`}
               />
-              {info.S_rating > 1 && info.S_rating <= 1.5 ? (
+              {data.S_rating > 1 && data.S_rating <= 1.5 ? (
                 <FaStarHalf className="filled" />
-              ) : info.S_rating > 1.5 ? (
+              ) : data.S_rating > 1.5 ? (
                 <FaStar className="filled" />
               ) : (
                 <FaStar className="not-filled" />
               )}
-              {info.S_rating > 2 && info.S_rating <= 2.5 ? (
+              {data.S_rating > 2 && data.S_rating <= 2.5 ? (
                 <FaStarHalf className="filled" />
-              ) : info.S_rating > 2.5 ? (
+              ) : data.S_rating > 2.5 ? (
                 <FaStar className="filled" />
               ) : (
                 <FaStar className="not-filled" />
               )}
-              {info.S_rating > 3 && info.S_rating <= 3.5 ? (
+              {data.S_rating > 3 && data.S_rating <= 3.5 ? (
                 <FaStarHalf className="filled" />
-              ) : info.S_rating > 3.5 ? (
+              ) : data.S_rating > 3.5 ? (
                 <FaStar className="filled" />
               ) : (
                 <FaStar className="not-filled" />
               )}
-              {info.S_rating > 4 && info.S_rating <= 4.5 ? (
+              {data.S_rating > 4 && data.S_rating <= 4.5 ? (
                 <FaStarHalf className="filled" />
-              ) : info.S_rating > 4.5 ? (
+              ) : data.S_rating > 4.5 ? (
                 <FaStar className="filled" />
               ) : (
                 <FaStar className="not-filled" />
               )}
-              ({Number(info.S_reviews).toLocaleString("en-IN")} ratings)
+              ({Number(data.S_reviews).toLocaleString("en-IN")} ratings)
             </p>
             <p className="detail-price">
-              &#8377;{Number(info.Sprice).toLocaleString("en-IN")}
+              &#8377;{Number(data.Sprice).toLocaleString("en-IN")}
             </p>
           </article>
           <article className="highlight-data">
             <div>
               <BsFillCameraFill className="data-icon" />
-              <p>{info.SpriCamera}</p>
+              <p>{data.SpriCamera}</p>
             </div>
             <div>
               <GrStorage className="data-icon" />
-              <p>{info.Sstorage}GB</p>
+              <p>{data.Sstorage}GB</p>
             </div>
             <div>
               <GiProcessor className="data-icon" />
-              <p>{info.Sprocessor}</p>
+              <p>{data.Sprocessor}</p>
             </div>
           </article>
           <article className="btn-container">
@@ -155,15 +161,16 @@ export const DetailPage = () => {
             )}
             <button
               className="buy-btn"
+              disabled={msg === true ? true : false}
               onClick={() => {
-                  try {
-                    dispatch(addItem(info));
-                    navigate("/cart");
-                  } catch (e) {
-                    console.log(e);
-                  } finally {
-                    setMsg(!msg);
-                  }
+                try {
+                  dispatch(addItem(data));
+                  navigate("/cart");
+                } catch (e) {
+                  console.log(e);
+                } finally {
+                  setMsg(!msg);
+                }
               }}
             >
               Buy now
@@ -174,88 +181,88 @@ export const DetailPage = () => {
             <div className="product-data">
               <div>
                 <p>Model</p>
-                <span>{info.S_model_no}</span>
+                <span>{data.S_model_no}</span>
               </div>
               <div>
                 <p>Name</p>
-                <span>{info.Sname}</span>
+                <span>{data.Sname}</span>
               </div>
               <div>
                 <p>Brand</p>
-                <span>{info.Sbrand}</span>
+                <span>{data.Sbrand}</span>
               </div>
               <div>
                 <p>Operating System</p>
-                <span>{info.Sosver}</span>
+                <span>{data.Sosver}</span>
               </div>
               <div>
                 <p>RAM</p>
-                <span>{info.Sram}GB</span>
+                <span>{data.Sram}GB</span>
               </div>
               <div>
                 <p>Storage</p>
-                <span>{info.Sstorage}GB</span>
+                <span>{data.Sstorage}GB</span>
               </div>
               <div>
                 <p>Processor</p>
-                <span>{info.Sprocessor}</span>
+                <span>{data.Sprocessor}</span>
               </div>
-              {info.Product_type === "Mobiles" ? (
+              {data.Product_type === "Mobiles" ? (
                 <div>
                   <p>Battery</p>
                   <span>
-                    {info.SBattery}mAh {info.SBattery_info}
+                    {data.SBattery}mAh {data.SBattery_info}
                   </span>
                 </div>
               ) : null}
               <div>
                 <p>Screen Size</p>
                 <span>
-                  {info.S_display_size}inch {info.S_display_type}
+                  {data.S_display_size}inch {data.S_display_type}
                 </span>
               </div>
               <div>
                 <p>Resolution</p>
-                <span>{info.S_display_res}px</span>
+                <span>{data.S_display_res}px</span>
               </div>
               <div>
                 <p>Primary camera</p>
                 <span>
-                  {info.Product_type === "Laptops"
-                    ? info.SpriCamera
-                    : info.SpriCamera_fea}
+                  {data.Product_type === "Laptops"
+                    ? data.SpriCamera
+                    : data.SpriCamera_fea}
                 </span>
               </div>
-              {info.Product_type === "Mobiles" ? (
+              {data.Product_type === "Mobiles" ? (
                 <div>
                   <p>Secondary camera</p>
                   <span>
-                    {info.SsecCamera} {info.SsecCamera_fea}
+                    {data.SsecCamera} {data.SsecCamera_fea}
                   </span>
                 </div>
               ) : null}
-              {info.Product_type === "Mobiles" ? (
+              {data.Product_type === "Mobiles" ? (
                 <div>
                   <p>Video recording</p>
-                  <span>{info.Svideo_rec}</span>
+                  <span>{data.Svideo_rec}</span>
                 </div>
               ) : null}
-              {info.Product_type === "Laptops" ? (
+              {data.Product_type === "Laptops" ? (
                 <div>
                   <p>Expandable Ram</p>
-                  <span>{info.SMram}GB</span>
+                  <span>{data.SMram}GB</span>
                 </div>
               ) : null}
-              {info.Product_type === "Mobiles" ? (
+              {data.Product_type === "Mobiles" ? (
                 <div>
                   <p>Network type</p>
-                  <span>{info.S_internet_conn}</span>
+                  <span>{data.S_internet_conn}</span>
                 </div>
               ) : null}
-              {info.Product_type === "Laptops" ? (
+              {data.Product_type === "Laptops" ? (
                 <div>
                   <p>Dedicated Graphic Card</p>
-                  <span>{info.Sgraphic}</span>
+                  <span>{data.Sgraphic}</span>
                 </div>
               ) : null}
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import { Outlet, Link, useSearchParams, useLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -23,10 +23,9 @@ export function loader({ params, request }) {
 
 export const ListsLayout = () => {
   const [initial, setIntial] = useState("price");
+  const [platform, setPlatform] = useState("");
   const state = useSelector((state) => state.showFilter);
   const sortState = useSelector((state) => state.showSort);
-  const display = useSelector((state) => state.showFilter);
-  const showSort = useSelector((state) => state.showSort);
   const [parameters, setParameters] = useSearchParams();
   let typeFilter = parameters.get("filterBy");
   let sortfilter = parameters.get("sortBy");
@@ -35,9 +34,21 @@ export const ListsLayout = () => {
   const range = String(cut[1])?.split("-");
   const data = useLoaderData();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    if (window.innerWidth <= 480) {
+      setPlatform("Mobile");
+      setIsOpen(false);
+    } else {
+      setPlatform("Pc");
+      setIsOpen(true);
+    }
+  }, []);
 
   function handleDisplay() {
-    state ? dispatch(hideFilter()) : dispatch(displayFilter());
+    if (platform === "Mobile")
+      state ? dispatch(hideFilter()) : dispatch(displayFilter());
   }
 
   function handleSort() {
@@ -58,7 +69,7 @@ export const ListsLayout = () => {
         : typeFilter?.includes("brand")
         ? data.filter((nom) => nom.Sbrand === cut[1])
         : typeFilter?.includes("ram")
-        ? data.filter((nom) => nom.Sram === Number(cut[1]))
+        ? data.filter((nom) => Number(nom.Sram) === Number(cut[1]))
         : typeFilter?.includes("storage")
         ? data.filter((nom) => nom.Sstorage === cut[1])
         : data
@@ -74,94 +85,109 @@ export const ListsLayout = () => {
         : data
       : data;
 
-  const filterTypes = () => {
-    let newBrands = new Set(data.map((art) => art.Sbrand));
-    let array = Array.from(newBrands);
+  let newBrands = new Set(data.map((art) => art.Sbrand));
+  let array = Array.from(newBrands);
 
-    return (
-      <>
-        <div className="filter-card">
-          {initial === "price" ? (
-            <div className="filter-options">
+  return (
+    <div className="lists-layout">
+      <section className="lists-filter-pc">
+        <p onClick={handleDisplay}>{state ? "Filters" : "Filters / Sort"}</p>
+        <article className={state ? "show-accordian" : "hide-accordian"}>
+          <details className="lists-accordian" open={isOpen}>
+            <summary>
+              <span>Price</span>
+            </summary>
+            <div>
               <Link to="?filterBy=price(10000-15000)">10,000-15,000</Link>
               <Link to="?filterBy=price(15000-20000)">15,000-20,000</Link>
               <Link to="?filterBy=price(20000-30000)">20,000-30,000</Link>
               <Link to="?filterBy=price(30000-40000)">30,000-40,000</Link>
               <Link to="?filterBy=price(40000-50000)">40,000-50,000</Link>
             </div>
-          ) : initial === "Brand" ? (
-            <div className="filter-options">
+          </details>
+          <details className="lists-accordian" open={isOpen}>
+            <summary>
+              <span>Brand</span>
+            </summary>
+            <div>
               {array.map((bar, index) => (
                 <Link key={index} to={`?filterBy=brand(${bar})`}>
                   {bar}
                 </Link>
               ))}
             </div>
-          ) : initial === "Ram" ? (
-            <div className="filter-options">
+          </details>
+          <details className="lists-accordian" open={isOpen}>
+            <summary>
+              <span>RAM</span>
+            </summary>
+            <div>
               <Link to="?filterBy=ram(4)">4GB</Link>
-              <Link to="?filterBy=ram(6)">6GB</Link>
               <Link to="?filterBy=ram(8)">8GB</Link>
+              <Link to="?filterBy=ram(12)">12GB</Link>
             </div>
-          ) : initial === "Storage" ? (
-            <div className="filter-options">
+          </details>
+          <details className="lists-accordian" open={isOpen}>
+            <summary>
+              <span>Storage</span>
+            </summary>
+            <div>
               <Link to="?filterBy=storage(64)">64GB</Link>
               <Link to="?filterBy=storage(128)">128GB</Link>
               <Link to="?filterBy=storage(256)">256GB</Link>
               <Link to="?filterBy=storage(512)">512GB</Link>
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-      </>
-    );
-  };
-
-  return (
-    <div className="lists-layout">
-      <main className="lists-filter">
-        <nav className="subnav">
-          <button onClick={handleDisplay}>&#061;Filter</button>
-          <button onClick={handleSort}>⇅Sort</button>
-        </nav>
-        <div className="filter-sort">
-          <main
-            className={`${display ? "filter-container" : "hide-container"}`}
-          >
-            <div className="filter-list">
-              <p onClick={() => setFilter("price")}>Price</p>
-              <p onClick={() => setFilter("Brand")}>Brand</p>
-              <p onClick={() => setFilter("Ram")}>Ram</p>
-              <p onClick={() => setFilter("Storage")}>Storage</p>
-            </div>
-            <div className="filter-types">{filterTypes()}</div>
-          </main>
+          </details>
           <button
             onClick={() => {
-              dispatch(hideFilter());
               setParameters("");
             }}
-            className={`${typeFilter ? "show-clear-filter" : "hide-clear"}`}
+            className={`${
+              typeFilter ? "show-clear-filter for-pc" : "hide-clear"
+            }`}
           >
             Clear filters
           </button>
-          <main className={`${showSort ? "sort-container" : "hide-sort"}`}>
+          <p>sort By</p>
+          <section>
             <Link to="?sortBy=price(low-to-high)">Price: Low to High</Link>
             <Link to="?sortBy=price(high-to-low)">Price: High to Low</Link>
+          </section>
+          <button
+            onClick={() => {
+              dispatch(hideSort());
+              setParameters("");
+            }}
+            className={`${
+              sortfilter !== null ? "show-clear-filter for-pc" : "hide-clear"
+            }`}
+          >
+            clear-filters
+          </button>
+          {state ? (
             <button
               onClick={() => {
-                dispatch(hideSort());
-                setParameters("");
+                dispatch(hideFilter());
               }}
-              className={`${sortfilter !== null ? "show-clear" : "hide-clear"}`}
+              className={
+                platform === "Mobile" ? "show-clear for-pc" : "hide-accordian"
+              }
             >
-              clear-filters
+              Hide Filters
             </button>
-          </main>
-        </div>
-      </main>
-
+          ) : null}
+        </article>
+      </section>
+      {typeFilter !== null ? (
+        <button
+          onClick={() => {
+            setParameters("");
+          }}
+          className={state === false ? "show-clear for-pc" : "hide-accordian"}
+        >
+          Clear Filters
+        </button>
+      ) : null}
       <Outlet context={[update]} />
     </div>
   );

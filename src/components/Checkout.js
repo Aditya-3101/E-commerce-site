@@ -7,6 +7,8 @@ import { delItem } from "../actions";
 
 export const Checkout = () => {
   const data = useSelector((state) => state.Item);
+  const user = useSelector((state) => state.loginUser);
+  const [status, setStatus] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [radio, setRadio] = useState("");
@@ -14,6 +16,7 @@ export const Checkout = () => {
     address: "",
     phone: "",
   });
+  const accDetails = user[0];
 
   let addressError = "";
   let phoneError = "";
@@ -27,6 +30,39 @@ export const Checkout = () => {
     return tot;
   };
 
+  const utc = new Date().toJSON().slice(0, 10);
+
+  function placeOrder() {
+    data.map((par) => {
+      fetch(`https://native-json.onrender.com/orders`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: accDetails[0].userName,
+          Pnumber: accDetails[0].Pnumber,
+          productid: par.ProductId,
+          producttype: par.ProductType,
+          price: par.Sprice * 1,
+          trans: radio,
+          date: utc,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          alert("Your order is placed successfully");
+        })
+        .catch((error) => {
+          alert("Can't Proceed your request");
+          console.log(error);
+        })
+        .finally(() => {
+          dispatch(delItem(par.ProductId));
+        });
+    });
+  }
+
   const checkthis = () => {
     if (radio.length < 1) {
       paymentError = "Please select Payment type";
@@ -37,9 +73,9 @@ export const Checkout = () => {
       addressError = "Please enter address Properly.";
       alert(addressError);
     }
-    if (form.phone.length!== 10) {
+    if (form.phone.length !== 10) {
       phoneError = "Please enter phone number properly.";
-      console.log(form.phone)
+      console.log(form.phone);
       alert(phoneError);
     }
     if (
@@ -47,8 +83,7 @@ export const Checkout = () => {
       phoneError.length < 1 &&
       paymentError.length < 1
     ) {
-      alert("Your order is placed successfully");
-    navigate("/")
+      placeOrder();
     }
   };
 
