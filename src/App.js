@@ -36,7 +36,7 @@ const router = createBrowserRouter(
         path="/lists"
         element={<ListsLayout />}
         loader={ListsLoader}
-        errorElement={<h1>We got an Error!</h1>}
+        errorElement={<NoPage/>}
       >
         <Route path="/lists/:type" element={<Lists />}></Route>
       </Route>

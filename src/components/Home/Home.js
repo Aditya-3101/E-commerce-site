@@ -16,6 +16,7 @@ export function loader({ params }) {
 export function Home() {
   const data = useLoaderData();
   const flag = useSelector((state) => state.flag);
+  const visible = useSelector((state) => state.flag);
   const dispatch = useDispatch();
   const [query, setQuery] = useSearchParams();
   const [search, setSearch] = useState("");
@@ -33,11 +34,12 @@ export function Home() {
   }
 
   if (data.length === 0) {
-    return <h1>Loading...</h1>;
+    return <div className="loading-div"><h1 className="loading-name">Loading...</h1>
+      </div>
   }
 
   return (
-    <div>
+    <div className={visible?"grand-parent-container overhead":"grand-parent-container"}>
       <div className="search-container">
         <GiHamburgerMenu
           className="nav-ham"
@@ -48,13 +50,13 @@ export function Home() {
         ) : null}
         <form onSubmit={submitSearch} className="search-input">
           <input
-            type="text"
+            type="search"
             className="Home-search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search for Products, Brands and More"
           />{" "}
-          <BiSearch
+          {/* <BiSearch
             className="find-icon"
             onClick={(e) => {
               if (String(search).length !== 0) {
@@ -63,10 +65,10 @@ export function Home() {
                 navigate(`/lists/search?q=${search}`);
               }
             }}
-          />
+          /> */}
         </form>
 
-        <Link to="/account">
+        <Link to="/account" className="acc-icon">
           <FaUserCircle className="user-icon" />
         </Link>
       </div>

@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { IoIosMail,IoMdMan } from "react-icons/io";
+import { BsTelephoneFill,BsGenderAmbiguous } from "react-icons/bs";
+import { FaMapMarkedAlt,FaLock } from "react-icons/fa";
 
 export const Signin = () => {
   const [formData, setFormData] = useState({
@@ -105,50 +109,54 @@ export const Signin = () => {
 
   return (
     <div className="signin-sc">
-      <p>Sign in</p>
+      <p>Sign up</p>
       <div className="signin-form">
         <section className="signin-first-section">
           <p>
-            <span>Name</span>
+            <span><FaUser/></span>
             <input
               type="text"
               name="name"
+              placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
             />
           </p>
           <p>
-            <span>Email</span>
+            <span><IoIosMail/></span>
             <input
               type="email"
               name="email"
+              placeholder="Enter your E-mail"
               value={formData.email}
               onChange={handleChange}
             />
           </p>
           <p>
-            <span>Phone Number</span>
+            <span><BsTelephoneFill/></span>
             <input
               type="Number"
               inputMode="numeric"
               name="phone"
               value={formData.phone}
               pattern=".{10}"
+              placeholder="Enter Your Phone Number"
               title="Field must be 10 characters long"
               onChange={handleChange}
             />
           </p>
           <p>
-            <span>age</span>
+            <span><IoMdMan/></span>
             <input
               type="number"
               name="age"
+              placeholder="Enter your Age"
               value={formData.age}
               onChange={handleChange}
             />
           </p>
           <p>
-            <span>Gender</span>
+            <span><BsGenderAmbiguous/></span>
             <select
               name="gender"
               className="select-gen"
@@ -160,22 +168,22 @@ export const Signin = () => {
               <option value="Female">Female</option>
             </select>
           </p>
-        </section>
-        <section className="signin-sec-section">
           <p>
-            <span>Address</span>
+            <span><FaMapMarkedAlt/></span>
             <input
               type="text"
               name="address"
+              placeholder="Enter Your address"
               value={formData.address}
               onChange={handleChange}
             />
           </p>
           <p>
-            <span>Password</span>
+            <span><FaLock/></span>
             <input
               type="password"
               name="password"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
             />
@@ -184,8 +192,11 @@ export const Signin = () => {
             <button onClick={submitForm} className="signin-submit-btn">
               Submit
             </button>{" "}
-            <Link to="/login">Login</Link>
           </p>
+        </section>
+        <section className="signin-sec-section">
+          <img src="https://i.ibb.co/Y2Cvc0q/undraw-Sign-up-n6im.png" alt="sign up cover"/>
+          <Link to="/Login">Already a user?</Link>
         </section>
       </div>
     </div>

@@ -51,7 +51,7 @@ export function Card(props) {
       processor: "intel Core i5 10th Gen",
       specs: "8GB | 1TB",
       image:
-        "https://i.ibb.co/94KHFwV/na-thin-and-light-laptop-hp-original-imag69rnjkctnzhy.jpg",
+        "https://i.ibb.co/4J8V8Vv/X8-Vt54-Gy-Taugz-Wm-Fz-Uzhb-transformed.png",
       type: "laptop",
       category: "Laptops",
       price: 49600,
@@ -79,33 +79,54 @@ export function Card(props) {
     },
   ];
 
-  useEffect(() => {
-    const heroWidth = window.screen.availWidth * data.length;
-    reference.current.scrollTo(width, 0);
-    if (reference.current.scrollLeft === 0) {
-      setDisplayNavigation((prev) => ({
-        ...prev,
-        back: false,
-      }));
-    } else {
-      setDisplayNavigation((prev) => ({
-        ...prev,
-        back: true,
-      }));
-    }
+  // useEffect(() => {
+  //   const heroWidth = window.screen.availWidth * data.length;
+  //   reference.current.scrollTo(width, 0);
+  //   if (reference.current.scrollLeft === 0) {
+  //     setDisplayNavigation((prev) => ({
+  //       ...prev,
+  //       back: false,
+  //     }));
+  //   } else {
+  //     setDisplayNavigation((prev) => ({
+  //       ...prev,
+  //       back: true,
+  //     }));
+  //   }
 
-    if (reference.current.scrollLeft === heroWidth - window.screen.availWidth) {
-      setDisplayNavigation((prev) => ({
-        ...prev,
-        forward: false,
-      }));
-    } else {
-      setDisplayNavigation((prev) => ({
-        ...prev,
-        forward: true,
-      }));
-    }
-  }, [width]);
+  //   if (reference.current.scrollLeft === heroWidth - window.screen.availWidth) {
+  //     setDisplayNavigation((prev) => ({
+  //       ...prev,
+  //       forward: false,
+  //     }));
+  //   } else {
+  //     setDisplayNavigation((prev) => ({
+  //       ...prev,
+  //       forward: true,
+  //     }));
+  //   }
+  // }, [width]);
+
+  useEffect(() => {
+    const heroWidth = window.innerWidth * data.length;
+    reference.current.scrollTo(width, 0);
+  
+    // console.log("Scroll Left:", reference.current.scrollLeft); // Check scroll position
+  
+    const isAtStart = reference.current.scrollLeft === 0;
+    const isAtEnd = reference.current.scrollLeft + window.innerWidth + 1 >= heroWidth;
+    // console.log("At Start:", isAtStart, "At End:", isAtEnd); // Check conditions
+  
+    setDisplayNavigation({
+      back: !isAtStart,
+      forward: !isAtEnd
+    });
+  
+    // console.log("Display Navigation:", displaynavigation); // Check state after update
+  }, [data, width]);
+  
+  
+  
 
   const poster = data.map((para, index) => {
     return (
@@ -125,16 +146,17 @@ export function Card(props) {
             padding: "1rem",
             position: "relative",
             display: "grid",
-            gridTemplateColumns: "40% 60%",
+            gridTemplateColumns: "35% 65%",
           }}
         >
           <img src={para.Simg} alt={para.Sname} className="hero-single-img" />
           <div
+            className="hero-card-data"
             style={{
               height: "80%",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-evenly",
+              justifyContent: "space-around",
             }}
           >
             <p
@@ -183,7 +205,7 @@ export function Card(props) {
             >
               {para.min_info}
             </p>
-            <p></p>
+            <p className="mini-specs">{para.Sram}GB | {para.Sstorage}GB</p>
             <Link
               className="hero-item-price"
               to={`/lists/Mobiles/${para.ProductId}`}

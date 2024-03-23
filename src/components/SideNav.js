@@ -14,6 +14,7 @@ export default function SideNav() {
 
   const SideBar = () => {
     return (
+      <div className="nav-body-overlay">
       <ul className={visible ? "vertical-nav show" : "vertical-nav"}>
         <p onClick={() => dispatch(hideIt())}>&#10006;</p>
         <div className="user-area">
@@ -45,7 +46,7 @@ export default function SideNav() {
           <BsQuestionLg />
           <p>Faq</p>
         </li>
-      </ul>
+      </ul></div>
     );
   };
 

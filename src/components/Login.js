@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,redirect, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../actions/index";
+import {FaUserCircle,FaLock} from "react-icons/fa";
+
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -44,7 +46,9 @@ export const Login = () => {
     const res = await request.json();
     if (Object(res).length === 1) {
       dispatch(userLogin(res));
-      navigation("/");
+      console.log("im here")
+      navigation("/")
+      console.log("done");
     } else {
       alert("No user found");
     }
@@ -68,7 +72,7 @@ export const Login = () => {
         <p className="login-heading">Login</p>
         <form className="login-form">
           <p>
-            <span>Phone Number</span>
+            <FaUserCircle/>
             <input
               type="number"
               inputMode="numeric"
@@ -79,7 +83,7 @@ export const Login = () => {
             />
           </p>
           <p>
-            <span>Password</span>
+            <FaLock/>
             <input
               type="password"
               value={formData.pwd}
@@ -90,8 +94,7 @@ export const Login = () => {
           </p>
           <button onClick={formSubmit}>Login</button>
         </form>
-        <p className="signup-suggestion">New to Electrify?</p>
-        <Link className="signup-btn" to="/signin">
+        <Link className="signup-suggestion" to="/signin">
           Create an Account
         </Link>
       </article>
