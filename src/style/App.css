@@ -1162,6 +1162,8 @@ button{
 
 .mini-specs{
   font-size: 1.2rem;
+  font-family: sans-serif;
+  margin:1px 0px;
 }
 
 .lists-accordian > div {
@@ -2509,6 +2511,7 @@ details[open]>summary>span{
     width: 70%;
     height: 80%;
     vertical-align: middle;
+    gap:5px;
   }
 
   .list-item > div > p {
@@ -2516,6 +2519,10 @@ details[open]>summary>span{
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(0, 0, 0);
     text-decoration: none;
+  }
+
+  .item-price{
+    font-weight: 700;
   }
 
   .back-icon {
