@@ -2395,6 +2395,10 @@ details[open]>summary>span{
     grid-auto-rows: min-content;
   }
 
+  .lists-filter-pc{
+    border-bottom: 0.7px solid rgb(20, 10, 10);
+  }
+
   .filter-sort {
     width: 100%;
     position: relative;
