@@ -26,6 +26,8 @@ body::-webkit-scrollbar{
 html,
 body {
   overflow-x: hidden;
+  max-width: 1680px;
+  margin-inline:auto;
 }
 
 .loading-div{
@@ -809,8 +811,8 @@ button{
 }
 
 .list-container {
-  grid-area: mainSection;
   width: 100%;
+  background-color: #fff;
 }
 
 .list-container > a:last-child {
@@ -1069,10 +1071,10 @@ button{
   position: relative;
   display: grid;
   grid-template-columns: 1fr 3fr;
-  grid-auto-rows: auto;
+  grid-template-rows: min-content auto;
   align-items: start;
   overflow: auto;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(20,10,10);
   /* grid-gap: 4rem;
   grid-template-areas: "sideBar mainSection"
   "sideBar mainSection"; */
@@ -1090,13 +1092,26 @@ button{
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  left:0;
+  bottom:0;
+  height:100%;
   text-align: center;
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  outline: 1px solid black;
   padding: 0.4rem;
+  background-color: #fff;
+}
+
+.lists-filter-pc::after{
+  content:'';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 0.4px; /* Adjust the width of the outline */
+  background-color: rgb(20, 10, 10);
 }
 
 .lists-filter-pc > p {
@@ -1211,6 +1226,10 @@ button{
   margin: 0;
 }
 
+.list-container>a:last-child>div>.list-item:last-child{
+  outline:none;
+}
+
 /* details[open]>summary{
   background-color:black;
 }
@@ -1224,8 +1243,19 @@ details[open]>summary>span{
 } */
 
 .lists-main {
-  display: grid;
-  justify-content: center;
+  display: flex;
+  /* padding:5px 10px; */
+  position: relative;
+}
+
+.lists-main:before{
+  content:'';
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width:0.4px;
+  background-color: rgb(20, 10, 10);
 }
 
 .filter-sort {
@@ -1320,12 +1350,13 @@ details[open]>summary>span{
 
 .show-clear-filter {
   display: block;
-  width: 100%;
+  width: 75%;
   text-align: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border: none;
   text-transform: capitalize;
   padding: 0.3rem;
+  margin:0.5rem auto;
 }
 
 .hide-clear {
@@ -1498,7 +1529,7 @@ details[open]>summary>span{
 .product-info p {
   font-family: Arial, Helvetica, sans-serif;
   width: 95%;
-  padding: 1rem 0 0 0;
+  padding: 0.8rem 0 0.8rem 0.5rem;
 }
 
 .detail-header {
@@ -2116,7 +2147,7 @@ details[open]>summary>span{
   }
 
   .hero-img-container > div > p {
-    font-size: 1.4rem;
+    /* font-size: 1.4rem; */
   }
 
   .mini-specs{

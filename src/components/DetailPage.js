@@ -19,8 +19,9 @@ export function loader({ params }) {
 }
 
 export const DetailPage = () => {
-  const data = useLoaderData();
+  const dataCollection = useLoaderData();
   // const info = Object.assign({}, data[0]);
+  const data = dataCollection[0]
   const photos = String(data.SmPhotos).split("|||");
   const { type } = useParams();
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const DetailPage = () => {
   const check = useSelector((state) => state.Item);
   const user = useSelector((state) => state.loginUser);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     window.scrollTo({
