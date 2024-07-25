@@ -1,7 +1,7 @@
 export async function getCards() {
   // fetch("https://alike-burnt-auroraceratops.glitch.me/api/main/smartphones/cards")
   // .then(res)
-  const res = await fetch("https://natify-api.onrender.com/cd/all");
+  const res = await fetch("https://mongo-api-kappa.vercel.app/cd/all");
   if (!res.ok) {
     // eslint-disable-next-line no-throw-literal
     throw {
@@ -17,7 +17,7 @@ export async function getCards() {
 export async function getMobiles(id) {
   if (id) {
     const res = await fetch(
-      `https://natify-api.onrender.com/sm/${id}`
+      `https://mongo-api-kappa.vercel.app/sm/${id}`
     );
     if (!res.ok) {
       throw {
@@ -29,7 +29,7 @@ export async function getMobiles(id) {
     const data = await res.json();
     return data;
   } else {
-    const res = await fetch(`https://natify-api.onrender.com/sm/all`);
+    const res = await fetch(`https://mongo-api-kappa.vercel.app/sm/all`);
     if (!res.ok) {
       throw {
         message: res.text,
@@ -45,7 +45,7 @@ export async function getMobiles(id) {
 export async function getLaptops(id) {
   if (id) {
     const res = await fetch(
-      `https://natify-api.onrender.com/olp/${id}`
+      `https://mongo-api-kappa.vercel.app/olp/${id}`
     );
     if (!res.ok) {
       throw {
@@ -57,7 +57,7 @@ export async function getLaptops(id) {
     const data = await res.json();
     return data;
   } else {
-    const res = await fetch(`https://natify-api.onrender.com/olp/all`);
+    const res = await fetch(`https://mongo-api-kappa.vercel.app/olp/all`);
     if (!res.ok) {
       throw {
         message: res.text,
@@ -74,7 +74,7 @@ export async function getLaptops(id) {
 export async function getResults(para) {
   //https://alike-burnt-auroraceratops.glitch.me/search?Sbrand_like=asus
   const res = await fetch(
-    `https://natify-api.onrender.com/search/q?name=${para}`
+    `https://mongo-api-kappa.vercel.app/search/q?name=${para}`
   );
   if (!res.ok) {
     throw {
