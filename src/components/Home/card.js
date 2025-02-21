@@ -29,7 +29,7 @@ export function Card(props) {
     {
       name: "apple",
       photo:
-        "https://i.ibb.co/HChjD7s/711-JE-d-D1-KL-SX679-removebg-preview.png",
+        "https://i.imgur.com/XHh7z4S.png",
       desc: "Buy Iphones at nearly 15% Discount ",
     },
   ];
@@ -51,7 +51,7 @@ export function Card(props) {
       processor: "intel Core i5 10th Gen",
       specs: "8GB | 1TB",
       image:
-        "https://i.ibb.co/4J8V8Vv/X8-Vt54-Gy-Taugz-Wm-Fz-Uzhb-transformed.png",
+        "https://i.imgur.com/fmjpwN0.png",
       type: "laptop",
       category: "Laptops",
       price: 49600,
@@ -62,7 +62,7 @@ export function Card(props) {
       processor: "Snapdragon 750G",
       specs: "6GB | 128GB",
       image:
-        "https://i.ibb.co/4N7P0pJ/original-imagdm4pzduvcfx4-min-removebg-preview.png",
+        "https://i.imgur.com/sKEDnvY.png",
       type: "mobile",
       category: "Mobiles",
       price: 22999,
@@ -79,33 +79,7 @@ export function Card(props) {
     },
   ];
 
-  // useEffect(() => {
-  //   const heroWidth = window.screen.availWidth * data.length;
-  //   reference.current.scrollTo(width, 0);
-  //   if (reference.current.scrollLeft === 0) {
-  //     setDisplayNavigation((prev) => ({
-  //       ...prev,
-  //       back: false,
-  //     }));
-  //   } else {
-  //     setDisplayNavigation((prev) => ({
-  //       ...prev,
-  //       back: true,
-  //     }));
-  //   }
 
-  //   if (reference.current.scrollLeft === heroWidth - window.screen.availWidth) {
-  //     setDisplayNavigation((prev) => ({
-  //       ...prev,
-  //       forward: false,
-  //     }));
-  //   } else {
-  //     setDisplayNavigation((prev) => ({
-  //       ...prev,
-  //       forward: true,
-  //     }));
-  //   }
-  // }, [width]);
 
   useEffect(() => {
     const heroWidth = window.innerWidth * data.length;
