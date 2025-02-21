@@ -742,6 +742,8 @@ button{
   margin-inline: auto;
   display: flex;
   justify-content: space-between;
+  min-height:15rem;
+  max-height: 18rem;
 }
 
 .type-container {
@@ -755,6 +757,8 @@ button{
 .banner-container {
   width: 35%;
   background-color: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
 }
 
 .banner {
@@ -771,8 +775,8 @@ button{
 }
 
 .banner > img {
-  width: 32%;
-  object-fit: contain;
+  width: 20%;
+  object-fit: cover;
   filter: drop-shadow(0px 5px 7px rgba(255, 255, 255, 0.5));
 }
 
@@ -1059,11 +1063,11 @@ button{
 }
 
 .type-img {
-  width: 15%;
+  width: 30%;
 }
 
 .type-lp-img {
-  width: 30%;
+  width: 70%;
 }
 
 .lists-layout {
@@ -1800,6 +1804,15 @@ details[open]>summary>span{
   .page-footer{
     width: 100%;
   }
+
+  
+.type-img {
+  width: 30%;
+}
+
+.type-lp-img {
+  width: 50%;
+}
 
   .page-footer-grid{
     background-color: #000;
